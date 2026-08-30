@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<link rel="apple-touch-icon" sizes="180x180" href="">
+    <title>Dashboard | Car Market Analysis</title>
+
+
+    <!-- DASHBOARD CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- CHART JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
+<nav class="dashboard-navbar">
+
+
+    <!-- HOME BUTTON -->
+
+    <a
+        href="{{ url_for('home') }}"
+        class="back-button"
+        title="Go to Home"
+    >
+
+        <i class="fa-solid fa-house"></i>
+
+        <span>HOME</span>
+
+    </a>
+
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/logo.png') }}"
+            alt="Car Market Analysis Logo"
+            class="logo-image"
+        >
+
+
+        <div class="logo-text">
+
+            CAR MARKET
+
+            <span>
+                ANALYSIS
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SYSTEM STATUS -->
+
+    <div class="dashboard-status">
+
+        <span class="status-dot"></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- =====================================
+     DASHBOARD HERO
+===================================== -->
+
+<section class="dashboard-header">
+
+
+    <!-- DARK OVERLAY -->
+
+    <div class="dashboard-overlay"></div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="dashboard-header-content">
+
+
+        <p>
+            DATA ANALYTICS DASHBOARD
+        </p>
+
+
+
+        <h1>
+
+            CAR MARKET
+
+            <span>
+                OVERVIEW
+            </span>
+
+        </h1>
+
+
+
+        <div class="header-line"></div>
+
+
+
+        <div class="header-description">
+
+            Interactive visualization of the CarDekho dataset.
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     STATISTICS
+===================================== -->
+
+<section class="dashboard-stats">
+
+
+    <!-- TOTAL RECORDS -->
+
+    <div class="dashboard-card">
+
+        <p>
+            TOTAL RECORDS
+        </p>
+
+
+        <h2>
+            {{ total_records }}
+        </h2>
+
+
+        <span>
+            Dataset Records
+        </span>
+
+    </div>
+
+
+
+    <!-- UNIQUE VEHICLES -->
+
+    <div class="dashboard-card">
+
+        <p>
+            UNIQUE VEHICLES
+        </p>
+
+
+        <h2>
+            {{ unique_vehicles }}
+        </h2>
+
+
+        <span>
+            Different Vehicle Models
+        </span>
+
+    </div>
+
+
+
+    <!-- AUTOMATIC VEHICLES -->
+
+    <div class="dashboard-card">
+
+        <p>
+            AUTOMATIC VEHICLES
+        </p>
+
+
+        <h2>
+            {{ automatic_count }}
+        </h2>
+
+
+        <span>
+            Automatic Transmission
+        </span>
+
+    </div>
+
+
+
+    <!-- CNG VEHICLES -->
+
+    <div class="dashboard-card">
+
+        <p>
+            CNG VEHICLES
+        </p>
+
+
+        <h2>
+            {{ cng_count }}
+        </h2>
+
+
+        <span>
+            CNG Fuel Type
+        </span>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     CHECK ANALYTICS BUTTON
+===================================== -->
+
+<section class="analytics-button-section">
+
+
+    <button
+        id="showChartsBtn"
+        class="show-charts-btn"
+        type="button"
+    >
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        CHECK ANALYTICS
+
+    </button>
+
+
+    <p class="analytics-note">
+
+        Click the button to view interactive charts and market analysis.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- =====================================
+     CHARTS SECTION
+===================================== -->
+
+<section
+    id="chartsSection"
+    class="charts-wrapper"
+>
+
+
+    <!-- CHART HEADER -->
+
+    <div class="charts-header">
+
+        <p>
+            DATA VISUALIZATION
+        </p>
+
+
+        <h2>
+
+            CAR MARKET
+
+            <span>
+                ANALYTICS
+            </span>
+
+        </h2>
+
+
+        <div class="header-line"></div>
+
+    </div>
+
+
+
+    <!-- CHART GRID -->
+
+    <section class="charts-section">
+
+
+        <!-- FUEL CHART -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+
+                <p>
+                    VEHICLE DISTRIBUTION
+                </p>
+
+
+                <h2>
+                    FUEL TYPE ANALYSIS
+                </h2>
+
+            </div>
+
+
+            <div class="canvas-container">
+
+                <canvas id="fuelChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TRANSMISSION CHART -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+
+                <p>
+                    TRANSMISSION DATA
+                </p>
+
+
+                <h2>
+                    MANUAL VS AUTOMATIC
+                </h2>
+
+            </div>
+
+
+            <div class="canvas-container">
+
+                <canvas id="transmissionChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- YEAR CHART -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+
+                <p>
+                    MANUFACTURING DATA
+                </p>
+
+
+                <h2>
+                    VEHICLES BY YEAR
+                </h2>
+
+            </div>
+
+
+            <div class="canvas-container">
+
+                <canvas id="yearChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TOP VEHICLES CHART -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+
+                <p>
+                    MARKET VALUE
+                </p>
+
+
+                <h2>
+                    TOP VEHICLES BY SELLING PRICE
+                </h2>
+
+            </div>
+
+
+            <div class="canvas-container">
+
+                <canvas id="topVehicleChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+</section>
+
+
+
+<!-- =====================================
+     AI ROBOT ASSISTANT
+===================================== -->
+
+<div class="ai-robot-container">
+
+
+    <!-- AI ROBOT LABEL -->
+
+    <div class="ai-robot-label">
+
+        <span>
+            AI PROJECT ASSISTANT
+        </span>
+
+        <small>
+            Ask me about this project
+        </small>
+
+    </div>
+
+
+
+    <!-- ROBOT BUTTON -->
+
+    <button
+        id="aiRobotButton"
+        class="ai-robot-button"
+        type="button"
+        aria-label="Open AI Project Assistant"
+    >
+
+
+        <img
+            src="{{ url_for('static', filename='images/ai-robot.png') }}"
+            alt="AI Project Assistant"
+            class="ai-robot-image"
+            id="aiRobot"
+        >
+
+
+        <span class="robot-online-dot"></span>
+
+
+    </button>
+
+
+
+    <!-- CHATBOT -->
+
+    <div
+        id="aiChatbot"
+        class="ai-chatbot"
+    >
+
+
+        <!-- CHAT HEADER -->
+
+        <div class="ai-chat-header">
+
+
+            <div class="ai-chat-title">
+
+
+                <img
+                    src="{{ url_for('static', filename='images/ai-robot.png') }}"
+                    alt="AI Assistant"
+                >
+
+
+                <div>
+
+                    <strong>
+                        PROJECT AI ASSISTANT
+                    </strong>
+
+
+                    <span>
+                        ● ONLINE
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CLOSE BUTTON -->
+
+            <button
+                id="closeChat"
+                class="close-chatbot"
+                type="button"
+                aria-label="Close Chat"
+            >
+
+                ×
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- CHAT MESSAGES -->
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        >
+
+
+            <div class="bot-message">
+
+                🤖 Hello! I am your Car Market Analysis AI Assistant.
+
+                <br><br>
+
+                Ask me anything related to this project.
+
+                <br><br>
+
+                You can ask about:
+
+                <br><br>
+
+                • CarDekho Dataset<br>
+                • Vehicle Prices<br>
+                • Fuel Types<br>
+                • Manual vs Automatic<br>
+                • Vehicle Depreciation<br>
+                • Python<br>
+                • Pandas<br>
+                • Dashboard Charts<br>
+                • Project Working
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- CHAT INPUT -->
+
+        <div class="chat-input-area">
+
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Ask about this project..."
+                autocomplete="off"
+            >
+
+
+            <button
+                id="sendMessage"
+                type="button"
+                aria-label="Send Message"
+            >
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer>
+
+
+    <div>
+
+        © 2026 CAR MARKET TRENDS ANALYSIS
+
+    </div>
+
+
+
+    <div>
+
+        DASHBOARD
+
+        <span>
+
+            ● LIVE DATA
+
+        </span>
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =====================================
+     FLASK DATA
+===================================== -->
+
+<script
+    id="dashboard-data"
+    type="application/json"
+>
+
+{
+    "fuelLabels": {{ dashboard_data.fuel_labels | tojson }},
+    "fuelValues": {{ dashboard_data.fuel_values | tojson }},
+
+    "transmissionLabels": {{ dashboard_data.transmission_labels | tojson }},
+    "transmissionValues": {{ dashboard_data.transmission_values | tojson }},
+
+    "yearLabels": {{ dashboard_data.year_labels | tojson }},
+    "yearValues": {{ dashboard_data.year_values | tojson }},
+
+    "topVehicleLabels": {{ dashboard_data.top_vehicle_labels | tojson }},
+    "topVehicleValues": {{ dashboard_data.top_vehicle_values | tojson }}
+}
+
+</script>
+
+
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}"
+></script>
+
+
+</body>
+
+</html>

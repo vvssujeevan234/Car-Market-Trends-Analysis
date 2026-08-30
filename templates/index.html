@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<link rel="apple-touch-icon" sizes="180x180" href="static/images/apple-touch-icon.png">
+    <title>
+        Car Market Trends Analysis
+    </title>
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- CHART JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
+<nav class="navbar">
+
+
+    <!-- HAMBURGER BUTTON -->
+
+    <a
+        href="/dashboard"
+        id="hamburgerButton"
+        class="hamburger-button"
+        aria-label="Open Dashboard"
+    >
+
+        <div id="nav-icon2">
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+    </a>
+
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <span class="logo-line"></span>
+
+        CAR MARKET
+
+        <span class="orange">
+            ANALYSIS
+        </span>
+
+    </div>
+
+
+
+    <!-- RIGHT NAVIGATION -->
+
+    <div class="nav-right">
+
+
+        <div class="nav-links">
+
+            <a href="#home">
+                HOME
+            </a>
+
+            <a href="#analyze">
+                ANALYZE
+            </a>
+
+            <a href="#results">
+                RESULTS
+            </a>
+
+            <a href="#missing">
+                DATA CHECK
+            </a>
+
+        </div>
+
+
+
+        <!-- THEME BUTTON -->
+
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle Theme"
+        >
+
+            <span id="themeIcon">
+                ☀
+            </span>
+
+        </button>
+
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- =====================================
+     HERO
+===================================== -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+
+    <div class="hero-overlay"></div>
+
+
+
+    <!-- HERO LEFT -->
+
+    <div class="hero-left">
+
+
+        <div class="live-label">
+
+            <span class="dot"></span>
+
+            DATA ANALYTICS PROJECT
+
+        </div>
+
+
+
+        <p class="orange-text">
+
+            CARDEKHO DATASET
+
+        </p>
+
+
+
+        <h1>
+
+            Understanding
+
+            <span>
+                Car Market Trends.
+            </span>
+
+        </h1>
+
+
+
+        <p class="hero-description">
+
+            Analyze vehicle prices,
+            manufacturing years,
+            fuel types,
+            ownership,
+            transmission and
+            depreciation using Python and Pandas.
+
+        </p>
+
+
+
+        <button
+            onclick="scrollToResults()"
+            class="explore-btn"
+        >
+
+            EXPLORE ANALYSIS →
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- HERO RIGHT -->
+
+    <div class="hero-right">
+
+
+        <div class="analysis-panel">
+
+
+            <p class="panel-small-title">
+
+                PROJECT DASHBOARD
+
+            </p>
+
+
+
+            <h2>
+
+                CAR MARKET
+
+                <span>
+                    TRENDS ANALYSIS
+                </span>
+
+            </h2>
+
+
+
+            <div class="orange-line"></div>
+
+
+
+            <p class="powered">
+
+                Powered by Python & Pandas
+
+            </p>
+
+
+
+            <p class="description">
+
+                This project performs data analysis
+                on vehicle market information and
+                provides answers to important
+                business and analytical questions.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     STATISTICS
+===================================== -->
+
+<section class="stats-section">
+
+
+    <div class="stat-box">
+
+        <p>
+            TOTAL RECORDS
+        </p>
+
+        <h3>
+            {{ results[3].answer }}
+        </h3>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <p>
+            UNIQUE VEHICLES
+        </p>
+
+        <h3>
+            {{ results[5].answer }}
+        </h3>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <p>
+            CNG VEHICLES
+        </p>
+
+        <h3>
+            {{ results[7].answer }}
+        </h3>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <p>
+            AUTOMATIC VEHICLES
+        </p>
+
+        <h3>
+            {{ results[9].answer }}
+        </h3>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     VEHICLE ANALYSIS
+===================================== -->
+
+<section
+    class="form-section"
+    id="analyze"
+>
+
+
+    <div class="form-title">
+
+
+        <p>
+            INTERACTIVE ANALYSIS
+        </p>
+
+
+
+        <h2>
+            ANALYZE YOUR VEHICLE
+        </h2>
+
+
+
+        <div class="intro-line"></div>
+
+
+
+        <span>
+            Search and select a vehicle available in the dataset.
+        </span>
+
+
+    </div>
+
+
+
+    {% if error %}
+
+    <div class="error-message">
+
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+
+
+    <div class="vehicle-form-container">
+
+
+        <form
+            action="/analyze"
+            method="POST"
+            class="vehicle-form"
+        >
+
+
+            <!-- VEHICLE SEARCH -->
+
+            <div class="form-group search-group">
+
+
+                <label for="carSearch">
+
+                    Search Vehicle Name
+
+                </label>
+
+
+
+                <div class="custom-search-dropdown">
+
+
+                    <!-- DROPDOWN BUTTON -->
+
+                    <button
+                        type="button"
+                        id="dropdownToggle"
+                        class="dropdown-toggle"
+                        aria-label="Show vehicle list"
+                    >
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="m6 9 6 6 6-6"
+                            ></path>
+
+                        </svg>
+
+                    </button>
+
+
+
+                    <!-- SEARCH BOX -->
+
+                    <div class="search-box">
+
+
+                        <svg
+                            class="search-svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="8"
+                            ></circle>
+
+                            <path
+                                d="m21 21-4.35-4.35"
+                            ></path>
+
+                        </svg>
+
+
+
+                        <input
+                            type="text"
+                            id="carSearch"
+                            name="car_name"
+                            placeholder="Search vehicle from dataset..."
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- VEHICLE DROPDOWN -->
+
+                    <div
+                        id="carDropdown"
+                        class="car-dropdown"
+                    >
+
+
+                        {% for car in car_names %}
+
+
+                        <button
+                            type="button"
+                            class="car-option"
+                            data-value="{{ car }}"
+                        >
+
+                            {{ car }}
+
+                        </button>
+
+
+                        {% endfor %}
+
+
+
+                        <div
+                            id="noVehicleFound"
+                            class="no-vehicle-found"
+                            style="display: none;"
+                        >
+
+                            No vehicle found
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- YEAR -->
+
+            <div class="form-group">
+
+                <label>
+                    Manufacturing Year
+                </label>
+
+                <input
+                    type="number"
+                    name="year"
+                    placeholder="Example: 2016"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- SELLING PRICE -->
+
+            <div class="form-group">
+
+                <label>
+                    Selling Price (Lakhs)
+                </label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    name="selling_price"
+                    placeholder="Example: 5.50"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- PRESENT PRICE -->
+
+            <div class="form-group">
+
+                <label>
+                    Present Price (Lakhs)
+                </label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    name="present_price"
+                    placeholder="Example: 8.00"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- KILOMETERS -->
+
+            <div class="form-group">
+
+                <label>
+                    Kilometers Driven
+                </label>
+
+                <input
+                    type="number"
+                    name="kms_driven"
+                    placeholder="Example: 45000"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- FUEL TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    Fuel Type
+                </label>
+
+                <select
+                    name="fuel_type"
+                    required
+                >
+
+                    <option value="">
+                        Select Fuel Type
+                    </option>
+
+                    <option value="Petrol">
+                        Petrol
+                    </option>
+
+                    <option value="Diesel">
+                        Diesel
+                    </option>
+
+                    <option value="CNG">
+                        CNG
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SELLER TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    Seller Type
+                </label>
+
+                <select
+                    name="seller_type"
+                    required
+                >
+
+                    <option value="">
+                        Select Seller Type
+                    </option>
+
+                    <option value="Dealer">
+                        Dealer
+                    </option>
+
+                    <option value="Individual">
+                        Individual
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- TRANSMISSION -->
+
+            <div class="form-group">
+
+                <label>
+                    Transmission
+                </label>
+
+                <select
+                    name="transmission"
+                    required
+                >
+
+                    <option value="">
+                        Select Transmission
+                    </option>
+
+                    <option value="Manual">
+                        Manual
+                    </option>
+
+                    <option value="Automatic">
+                        Automatic
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- OWNER -->
+
+            <div class="form-group">
+
+                <label>
+                    Owner
+                </label>
+
+                <select
+                    name="owner"
+                    required
+                >
+
+                    <option value="0">
+                        Single Owner
+                    </option>
+
+                    <option value="1">
+                        Second Owner
+                    </option>
+
+                    <option value="2">
+                        Third Owner
+                    </option>
+
+                    <option value="3">
+                        More Than Three Owners
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SUBMIT BUTTON -->
+
+            <div class="form-button">
+
+                <button
+                    type="submit"
+                >
+
+                    ANALYZE VEHICLE →
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         VEHICLE RESULT
+    ===================================== -->
+
+    {% if vehicle_result %}
+
+
+    <div class="vehicle-result">
+
+
+        <h2>
+            VEHICLE ANALYSIS RESULT
+        </h2>
+
+
+        <div class="intro-line"></div>
+
+
+
+        <div class="vehicle-result-grid">
+
+
+            <div class="result-item">
+
+                <span>Vehicle</span>
+
+                <h3>
+                    {{ vehicle_result.car_name }}
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Manufacturing Year</span>
+
+                <h3>
+                    {{ vehicle_result.year }}
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Vehicle Age</span>
+
+                <h3>
+                    {{ vehicle_result.age }} Years
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Kilometers Driven</span>
+
+                <h3>
+                    {{ vehicle_result.kms_driven }}
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Depreciation</span>
+
+                <h3>
+                    ₹ {{ vehicle_result.depreciation }} Lakhs
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Value Retention</span>
+
+                <h3>
+                    {{ vehicle_result.value_retention }} %
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Fuel Type</span>
+
+                <h3>
+                    {{ vehicle_result.fuel_type }}
+                </h3>
+
+            </div>
+
+
+
+            <div class="result-item">
+
+                <span>Transmission</span>
+
+                <h3>
+                    {{ vehicle_result.transmission }}
+                </h3>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+</section>
+
+
+
+<!-- =====================================
+     ANALYSIS INTRO
+===================================== -->
+
+<section class="analysis-intro">
+
+
+    <p>
+        DATA ANALYTICS PROJECT
+    </p>
+
+
+    <h2>
+        CAR MARKET DATA ANALYSIS
+    </h2>
+
+
+    <div class="intro-line"></div>
+
+
+    <span>
+        Python • Pandas • Data Analysis • Visualization
+    </span>
+
+
+</section>
+
+
+
+<!-- =====================================
+     RESULTS
+===================================== -->
+
+<section
+    class="results-section"
+    id="results"
+>
+
+
+    <div class="results-title">
+
+
+        <h2>
+            ANALYSIS RESULTS
+        </h2>
+
+
+        <p>
+            Answers generated automatically
+            from the CarDekho dataset.
+        </p>
+
+
+    </div>
+
+
+
+    <div class="results-grid">
+
+
+        {% for result in results %}
+
+
+        <div class="result-card">
+
+
+            <div class="card-number">
+
+                {{ "%02d" | format(result.number) }}
+
+            </div>
+
+
+
+            <h3>
+
+                {{ result.question }}
+
+            </h3>
+
+
+
+            <div class="card-line"></div>
+
+
+
+            <p>
+
+                {{ result.answer }}
+
+            </p>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     MISSING VALUES
+===================================== -->
+
+<section
+    class="missing-section"
+    id="missing"
+>
+
+
+    <div class="missing-title">
+
+
+        <p>
+            DATA QUALITY CHECK
+        </p>
+
+
+        <h2>
+            MISSING VALUES ANALYSIS
+        </h2>
+
+
+        <div class="intro-line"></div>
+
+
+        <span class="missing-description">
+
+            Click the button below to check
+            missing values directly from the dataset.
+
+        </span>
+
+
+    </div>
+
+
+
+    <div class="check-button-container">
+
+
+        <button
+            id="checkMissingBtn"
+            class="check-missing-btn"
+            type="button"
+        >
+
+            <span>
+                🔍
+            </span>
+
+            CHECK DATASET
+
+        </button>
+
+
+    </div>
+
+
+
+    <div
+        id="missingLoading"
+        class="missing-loading"
+    >
+
+        Checking dataset...
+
+    </div>
+
+
+
+    <div
+        id="missingTableContainer"
+        class="missing-table"
+        style="display: none;"
+    >
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Column Name
+                    </th>
+
+                    <th>
+                        Missing Values
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody
+                id="missingTableBody"
+            >
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+    <div
+        id="missingResult"
+        class="missing-result"
+        style="display: none;"
+    >
+
+
+        <h3
+            id="missingResultTitle"
+        >
+        </h3>
+
+
+        <p
+            id="missingResultText"
+        >
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     AI ROBOT ASSISTANT
+     FIXED BOTTOM RIGHT
+===================================== -->
+
+<div class="ai-robot-container">
+
+
+    <!-- ROBOT BUTTON -->
+
+    <button
+        id="aiRobotButton"
+        class="ai-robot-button"
+        type="button"
+        aria-label="Open AI Assistant"
+    >
+
+        <img
+            src="{{ url_for('static', filename='images/ai-robot.png') }}"
+            alt="AI Robot Assistant"
+            id="aiRobot"
+        >
+
+    </button>
+
+
+
+    <!-- CHATBOT -->
+
+    <div
+        id="aiChatbot"
+        class="ai-chatbot"
+    >
+
+
+        <!-- CHAT HEADER -->
+
+        <div class="ai-chatbot-header">
+
+
+            <h3>
+
+                <span class="robot-status-dot"></span>
+
+                PROJECT AI ASSISTANT
+
+            </h3>
+
+
+
+            <button
+                id="closeChat"
+                class="ai-close-btn"
+                type="button"
+                aria-label="Close Chat"
+            >
+
+                ×
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- CHAT MESSAGES -->
+
+        <div
+            id="chatMessages"
+            class="ai-chat-messages"
+        >
+
+
+            <div class="ai-message bot">
+
+                👋 Hello! I am your Car Market Analysis AI Assistant.
+
+                <br><br>
+
+                You can ask me questions about:
+
+                <br><br>
+
+                • CarDekho Dataset<br>
+                • Vehicle Prices<br>
+                • Depreciation<br>
+                • Fuel Types<br>
+                • Transmission<br>
+                • Python & Pandas<br>
+                • Project Features
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- CHAT INPUT -->
+
+        <div class="ai-chat-input-area">
+
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Ask about this project..."
+                autocomplete="off"
+            >
+
+
+            <button
+                id="sendMessage"
+                class="ai-send-btn"
+                type="button"
+                aria-label="Send Message"
+            >
+
+                ➤
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer>
+
+
+    <div>
+
+        © 2026 CAR MARKET TRENDS ANALYSIS
+
+    </div>
+
+
+
+    <div class="footer-right">
+
+        <span>
+            DATA ANALYTICS PROJECT
+        </span>
+
+
+        <span class="online">
+
+            <span class="online-dot"></span>
+
+            SYSTEM ONLINE
+
+        </span>
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}"
+></script>
+
+
+</body>
+
+</html>
